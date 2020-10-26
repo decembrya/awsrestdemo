@@ -2,7 +2,22 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Transform": "AWS::Serverless-2016-10-31",
   "Description": "An AWS Serverless Application that uses the ASP.NET Core framework running in Amazon Lambda.",
-  "Parameters": {
+  "Parameters": {  
+      "DomainName":{
+         "Type":"String",
+         "Description":"Domain name where we want the API to live",
+         "Default":""
+      },
+      "CertificateArn":{
+         "Type":"String",
+         "Description":"The ACM Certificate ARN of the domain name",
+         "Default":""
+      },
+      "HostedZoneId":{
+         "Type":"String",
+         "Description":"The Hosted Zone ID of the domain name to create the A Alias record. Find this on the Route 53 domain",
+         "Default":""
+      }
    }, 
   "Resources": {
     "AspNetCoreFunction": {
@@ -34,13 +49,83 @@
           }
         }
       }
-    }
-  },
+    },
+    "ApiGatewayDomainName":{
+         "Type":"AWS::ApiGatewayV2::DomainName",
+         "Properties":{
+            "DomainName":{
+               "Ref":"DomainName"
+            },
+            "DomainNameConfigurations":[
+               {
+                  "EndpointType":"REGIONAL",
+                  "CertificateArn":{
+                     "Ref":"CertificateArn"
+                  }
+               }
+            ]
+         }
+      },
+    "ApiGatewayBasePathMapping":{
+         "Type":"AWS::ApiGatewayV2::ApiMapping",
+         "DependsOn":[
+            "AspNetCoreFunction",
+            "ApiGatewayDomainName"
+         ],
+         "Properties":{
+            "ApiId":{
+               "Fn::Sub":"${ServerlessRestApi}"
+            },
+            "DomainName":{
+               "Ref":"DomainName"
+            },
+            "Stage":{
+               "Fn::Sub":"${ServerlessRestApiProdStage}"
+            }
+         }
+      },
+    "DNSRecordA":{
+         "Type":"AWS::Route53::RecordSet",
+         "DependsOn":[
+            "AspNetCoreFunction",
+            "ApiGatewayDomainName"
+         ],
+         "Properties":{
+            "HostedZoneId":{
+               "Ref":"HostedZoneId"
+            },
+            "Name":{
+               "Ref":"DomainName"
+            },
+            "Type":"A",           
+            "AliasTarget":{
+               "HostedZoneId":{
+                  "Fn::GetAtt":[
+                     "ApiGatewayDomainName",
+                     "RegionalHostedZoneId"
+                  ]
+               },
+               "DNSName":{
+                  "Fn::GetAtt":[
+                     "ApiGatewayDomainName",
+                     "RegionalDomainName"
+                  ]
+               }
+            }
+         }
+      }
+   },
   "Outputs": {
     "ApiURL": {
       "Description": "API endpoint URL for Prod environment",
       "Value": {
         "Fn::Sub": "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+      }
+    },
+     "FriendlyURL": {
+      "Description": "Frienly URL for Prod environment",
+      "Value": {
+         "Ref":"DomainName"
       }
     }
   }
