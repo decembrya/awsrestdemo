@@ -11,5 +11,5 @@
   "framework": "netcoreapp3.1",
   "s3-prefix": "AWSRestDemo/",
   "template": "serverless.template",
-  "template-parameters": "ShouldCreateBucket=true;BucketName="
+  "template-parameters": "CertificateArn=;DomainName=demo.example.net;HostedZoneId="
 }

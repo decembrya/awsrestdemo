@@ -21,7 +21,6 @@ namespace AWSRestDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
             
             services.AddSwaggerGen();
         }
@@ -42,6 +41,7 @@ namespace AWSRestDemo
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = string.Empty;
             });
 
             app.UseHttpsRedirection();
