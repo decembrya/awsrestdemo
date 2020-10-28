@@ -9,7 +9,6 @@
   "region": "eu-west-1",
   "configuration": "Release",
   "framework": "netcoreapp3.1",
-  "s3-prefix": "AWSRestDemo/",
   "template": "serverless.template",
   "template-parameters": "CertificateArn=;DomainName=demo.example.net;HostedZoneId="
 }

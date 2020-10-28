@@ -8,8 +8,6 @@ namespace AWSRestDemo
 {
     public class Startup
     {
-        public const string AppS3BucketKey = "AppS3Bucket";
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -34,14 +32,14 @@ namespace AWSRestDemo
             }
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UsePathBase("/Prod");
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                c.RoutePrefix = string.Empty;
+                c.SwaggerEndpoint("/Prod/swagger/v1/swagger.json", "My API V1");
             });
 
             app.UseHttpsRedirection();

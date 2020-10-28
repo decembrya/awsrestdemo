@@ -119,13 +119,13 @@
     "ApiURL": {
       "Description": "API endpoint URL for Prod environment",
       "Value": {
-        "Fn::Sub": "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+        "Fn::Sub": "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/swagger"
       }
     },
      "FriendlyURL": {
       "Description": "Frienly URL for Prod environment",
       "Value": {
-         "Ref":"DomainName"
+         "Fn::Sub": "https://${DomainName}/swagger"
       }
     }
   }
