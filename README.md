@@ -1,8 +1,8 @@
 # AwsRestDemo
-Demo project to show how a .NET Core REST API can be depoyed to AWS ans hosted publicly. See GoogleSheets for the acompanying presentation [here](https://docs.google.com/presentation/d/1ETWRSWYQNoYff2kxfZlM-hESaQh70g7m6hHLclgYfls/edit?usp=sharing)
+Demo project to show how a .NET Core REST API can be depoyed to AWS ans hosted publicly. See the acompanying presentation [here]()
 
 ### Deploy
-For deploy from a local machine use the `dotnet lambda deploy-serverless` command or alternatively download the [AWS Toolkit for Visual Studio]( https://marketplace.visualstudio.com/items?itemName=AmazonWebServices.AWSToolkitforVisualStudio2017) and use the Publish command.
+For deploy from a local machine use the [Amazon.Lambda.Tools](https://github.com/aws/aws-extensions-for-dotnet-cli#aws-lambda-amazonlambdatools) `dotnet lambda deploy-serverless` command  or alternatively download the [AWS Toolkit for Visual Studio]( https://marketplace.visualstudio.com/items?itemName=AmazonWebServices.AWSToolkitforVisualStudio2017) and use the Publish command.
 
 Deployment prerequisites:
 * AWS account
